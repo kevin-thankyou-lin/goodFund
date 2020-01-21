@@ -1,29 +1,22 @@
 import React from 'react';
-import { Nav, Navbar } from 'react-bootstrap';
+import { Nav, Navbar, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import logo from './img/logo192.png';
 
-const Styles = styled.div`
-  .narbar {
-    background-color: #FFF;
-  }
 
-  a, .navbar-brand, .navbar-nav .nav-link {
-    color: #000;
-
-    &:hover {
-      color: white;
-    }
-  }
-;
-`
+const img = {
+  width: "25%",
+  height: "25%",
+  marginLeft: "auto",
+  marginRight: "auto"
+};
 
 const NavBar = () => (
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Start a Project</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <Link to="/">
+      <img class="App-logo" src={logo} alt="Card image cap" style={img} />
+    </Link>
+    <Button variant="success" className="ml-auto" href="new">Start a Project</Button>
   </nav>
 
 

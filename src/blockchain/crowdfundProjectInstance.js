@@ -4,13 +4,19 @@ import web3 from './web3';
 const abi = [
 	{
 		"constant": true,
-		"inputs": [],
-		"name": "status",
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "pledgeArr",
 		"outputs": [
 			{
-				"internalType": "enum Project.Status",
+				"internalType": "uint256",
 				"name": "",
-				"type": "uint8"
+				"type": "uint256"
 			}
 		],
 		"payable": false,
@@ -18,9 +24,24 @@ const abi = [
 		"type": "function"
 	},
 	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "ballot",
+				"type": "uint256"
+			}
+		],
+		"name": "vote",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"constant": true,
 		"inputs": [],
-		"name": "project_creator",
+		"name": "getCreator",
 		"outputs": [
 			{
 				"internalType": "address payable",
@@ -35,27 +56,12 @@ const abi = [
 	{
 		"constant": true,
 		"inputs": [],
-		"name": "project_title",
+		"name": "getDescription",
 		"outputs": [
 			{
 				"internalType": "string",
 				"name": "",
 				"type": "string"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "deadline",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
 			}
 		],
 		"payable": false,
@@ -72,33 +78,29 @@ const abi = [
 		"type": "function"
 	},
 	{
-		"constant": true,
-		"inputs": [],
-		"name": "goal",
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "address[]",
+				"name": "voters",
+				"type": "address[]"
+			},
+			{
+				"internalType": "address",
+				"name": "a",
+				"type": "address"
+			}
+		],
+		"name": "contains",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "bool",
 				"name": "",
-				"type": "uint256"
+				"type": "bool"
 			}
 		],
 		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "project_description",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -107,9 +109,9 @@ const abi = [
 		"name": "getStatus",
 		"outputs": [
 			{
-				"internalType": "enum Project.Status",
+				"internalType": "uint256",
 				"name": "",
-				"type": "uint8"
+				"type": "uint256"
 			}
 		],
 		"payable": false,
@@ -126,18 +128,57 @@ const abi = [
 		"type": "function"
 	},
 	{
-		"constant": false,
-		"inputs": [
+		"constant": true,
+		"inputs": [],
+		"name": "getDeadline",
+		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "amount",
+				"name": "",
 				"type": "uint256"
 			}
 		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getCreatorName",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
 		"name": "pledge",
 		"outputs": [],
 		"payable": true,
 		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getM2Task",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -158,28 +199,7 @@ const abi = [
 	{
 		"constant": true,
 		"inputs": [],
-		"name": "project_ID",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "addressToPledgeAmount",
+		"name": "getID",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -201,53 +221,199 @@ const abi = [
 		"type": "function"
 	},
 	{
+		"constant": true,
+		"inputs": [],
+		"name": "getYesVotes",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getGoal",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getM2",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getNoVotes",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getM1",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getM1Task",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"constant": false,
 		"inputs": [],
 		"name": "getDetails",
 		"outputs": [
 			{
 				"internalType": "address payable",
-				"name": "_project_creator",
+				"name": "project_creator",
 				"type": "address"
 			},
 			{
 				"internalType": "string",
-				"name": "_project_title",
+				"name": "project_title",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "_project_description",
+				"name": "project_description",
 				"type": "string"
 			},
 			{
 				"internalType": "uint256",
-				"name": "_deadline",
+				"name": "project_total_raised",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "total_raised",
+				"name": "project_goal",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "_goal",
+				"name": "project_status",
 				"type": "uint256"
 			},
 			{
-				"internalType": "enum Project.Status",
-				"name": "_status",
-				"type": "uint8"
+				"internalType": "uint256",
+				"name": "project_ID",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "project_creator_name",
+				"type": "string"
 			},
 			{
 				"internalType": "uint256",
-				"name": "_ID",
+				"name": "project_m1",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "project_m2",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "project_yesVotes",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "project_noVotes",
 				"type": "uint256"
 			}
 		],
 		"payable": false,
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "VotedArr",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getTitle",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -281,6 +447,21 @@ const abi = [
 				"internalType": "uint256",
 				"name": "_ID",
 				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "m1",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "m2",
+				"type": "uint256"
 			}
 		],
 		"payable": false,
@@ -305,7 +486,7 @@ const abi = [
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "amount_raised",
+				"name": "total_raised",
 				"type": "uint256"
 			}
 		],
@@ -338,24 +519,7 @@ const abi = [
 		"name": "peopleRefunded",
 		"type": "event"
 	}
-]; // Your ABI goes here (Project contract)
-// Example:
-// const abi = [
-//   {
-//     "constant": true,
-//     "inputs": [],
-//     "name": "creator",
-//     "outputs": [
-//       {
-//         "name": "",
-//         "type": "address"
-//       }
-//     ],
-//     "payable": false,
-//     "stateMutability": "view",
-//     "type": "function"
-//   }
-// ];
+];
 
 export default (address) => {
   const instance = new web3.eth.Contract(abi, address);
