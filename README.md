@@ -15,4 +15,5 @@ Built using Solidity, Web3.js, React.js and Bootstrap.
 For first time users, we recommend using MetaMask (https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn)
 to interface with the Ethereum blockchain and GoodFund.
 
-Prototype platform: https://goodfund.online
+Prototype platform: https://goodfund.online or https://goodfund.netlify.com/
+Note: You need to eitehr install MetaMask https://metamask.io/ or run a full Ethereum node to use the platform.
